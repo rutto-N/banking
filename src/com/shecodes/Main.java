@@ -102,7 +102,7 @@ public class Main {
                 case 2:
                     StaffController.addStaff(StaffViews.getStaffDetailsUI());
                     break;
-                case 4:
+                case 3:
                     Util.loopArray(StaffController.viewCustomers());
                     break;
 
