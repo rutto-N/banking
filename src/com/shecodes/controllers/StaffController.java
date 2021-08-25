@@ -29,7 +29,7 @@ public class StaffController {
         if (!exist){
             String s="INSERT INTO `customers`(`name`, `emailAddress`, `NationalId`, `residence`) VALUES" +
                     "('"+customer.getName()+"','"+customer.getEmailAddress()+"','"+customer.getNationalId()+"','"+customer.getResidence()+"')";
-            int x= 0;
+            int x;
             try {
                 x = db.execute(s);
             } catch (SQLException e) {
@@ -37,7 +37,7 @@ public class StaffController {
 
             }
             if (x==1){
-                System.out.println("Customer account created Successfully");
+//                System.out.println("Customer account created Successfully");
                 return true;
             }else {
                 System.out.println("Customer account not created");
@@ -113,6 +113,46 @@ public class StaffController {
 
         return customer;
     }
+    public static Staff searchStaff(int id) throws ClassNotFoundException, SQLException, SQLExcept {
+
+        Database db=new Database();
+        Staff staff=new Staff();
+        String s="SELECT * FROM staff WHERE staffId="+id;
+        ResultSet rs =db.executeSelect(s);
+        while (rs.next()){
+            staff= StaffController.convertStringToStaff(rs);
+
+        }
+        return staff;
+
+    }
+    public static boolean deleteStaff(int id) throws SQLException, SQLExcept, ClassNotFoundException {
+        Database db=new Database();
+        Staff staff=searchStaff(id);
+        String s="DELETE FROM staff WHERE staffId="+staff.getId();
+        int x=db.execute(s);
+        if (x==1){
+            System.out.println("Staff Deleted Successfully");
+            return true;
+        }
+        return false;
+
+    }
+    public static Staff convertStringToStaff(ResultSet rs) throws SQLExcept {
+        Staff staff=new Staff();
+        try {
+            staff.setName(rs.getString("name"));
+            staff.setId(rs.getString("staffId"));
+            staff.setBranch(rs.getString("branch"));
+
+        }catch (SQLException e){
+            throw new SQLExcept(e.getMessage());
+        }
+
+        return staff;
+    }
+
+
 
 
 

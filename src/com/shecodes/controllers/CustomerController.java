@@ -22,5 +22,18 @@ public class CustomerController {
         return customer;
 
     }
+    public static boolean deleteCustomer(int id) throws SQLException, SQLExcept, ClassNotFoundException {
+        Database db=new Database();
+        Customer customer=searchCustomer(id);
+        String s="DELETE FROM customers WHERE NationalId="+customer.getNationalId();
+        int x=db.execute(s);
+        if (x==1){
+            System.out.println("Customer Deleted Successfully");
+            return true;
+        }
+        return false;
+
+    }
+
 
 }

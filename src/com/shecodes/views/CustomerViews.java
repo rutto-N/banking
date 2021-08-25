@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public class CustomerViews {
     public static Account getAccountDetailsUI() throws AccountTypeExcept {
-//        searchCustomer(id);
         Account acc=new Account();
         Scanner scanner=new Scanner(System.in);
         System.out.println("Account Name");
@@ -33,10 +32,17 @@ public class CustomerViews {
         }catch (Exception e){
             throw new AccountTypeExcept(e.getMessage());
         }
-//        System.out.println("ID Number");
-//        acc.setId(scanner.nextInt());
-//        scanner.nextLine();
+
         return acc;
+
+    }
+
+    public static int deleteCustomerUI(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Enter national id of the customer to delete");
+        int id= scanner.nextInt();
+        scanner.nextLine();
+        return id;
 
     }
 

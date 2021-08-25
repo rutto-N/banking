@@ -32,8 +32,15 @@ public class StaffViews {
         customer.setEmailAddress(scanner.nextLine());
         System.out.println("Customer residence");
         customer.setResidence(scanner.nextLine());
-        System.out.println(customer);
         return customer;
+    }
+    public static int deleteStaffUI(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Enter staff id of the staff to delete");
+        int id= scanner.nextInt();
+        scanner.nextLine();
+        return id;
+
     }
 
 

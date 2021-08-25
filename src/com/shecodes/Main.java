@@ -20,11 +20,7 @@ import java.util.Scanner;
 public class Main {
     static Database db;
 
-
-
     public static void main(String[] args) throws ClassNotFoundException, SQLException, SQLExcept, AccountTypeExcept, IllegalArgumentsExcept {
-//        Customer c=CustomerController.searchCustomer(56);
-//        System.out.println(c.getNationalId());
 
         db=new Database();
         int choice=0;
@@ -89,6 +85,9 @@ public class Main {
             System.out.println("1:Open Account");
             System.out.println("2:New Staff");
             System.out.println("3:View Customers");
+            System.out.println("4:Delete Customer");
+            System.out.println("5:Delete Staff");
+            System.out.println("6:Delete Account");
             System.out.println("0: Exit");
             c=scanner.nextInt();
             scanner.nextLine();
@@ -105,24 +104,19 @@ public class Main {
                 case 3:
                     Util.loopArray(StaffController.viewCustomers());
                     break;
+                case 4:
+                    CustomerController.deleteCustomer(CustomerViews.deleteCustomerUI());
+                    break;
+                case 5:
+                    StaffController.deleteStaff(StaffViews.deleteStaffUI());
+                    break;
+                case 6:
+                    AccountController.deleteAccount(AccountViews.deleteAccountUI());
+                    break;
 
             }
 
         }while (c!=0);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

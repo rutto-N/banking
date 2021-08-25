@@ -78,12 +78,10 @@ public class AccountController {
     public static boolean openAccount(Account account) throws SQLException, ClassNotFoundException, SQLExcept {
 
         Customer c= CustomerController.searchCustomer(account.getId());
-//        Customer c=getCustomer(account.getId());
-        System.out.println(c+"....");
+
             String s="INSERT INTO `accounts`(`accountNumber`, `accountName`, `pin`, `accountType`, `balance`,`customer_id`) VALUES " +
                     "('"+account.getAccountNumber()+"','"+account.getAccountName()+"','"+account.getPin()+"','"+account.getType()+"'," +
                     "'"+account.getBalance()+"','"+c.getId()+"')";
-//            System.out.println(s);
             int x= db.execute(s);
             if (x==1){
                 System.out.println("Account created Successfully");
@@ -95,15 +93,32 @@ public class AccountController {
 
 
     }
-//    static Customer getCustomer(int id) throws SQLException, SQLExcept {
-//        Customer c=new Customer();
-//        String s="SELECT * FROM `customers` WHERE customers.id="+id;
-//        ResultSet rs=db.executeSelect(s);
-//        while (rs.next()){
-//            c=StaffController.convertStringToCustomer(rs);
-//        }
-//        return c;
-//    }
+    public static Account searchAccount(int id) throws ClassNotFoundException, SQLException, SQLExcept {
+
+        Database db=new Database();
+        Account account=new Account();
+        String s="SELECT * FROM accounts WHERE accountNumber="+id;
+        ResultSet rs =db.executeSelect(s);
+        while (rs.next()){
+            account= Util.convertStringToAccount(rs);
+
+        }
+        return account;
+
+    }
+    public static boolean deleteAccount(int id) throws SQLException, SQLExcept, ClassNotFoundException {
+        Database db=new Database();
+        Account account=searchAccount(id);
+        String s="DELETE FROM accounts WHERE accountNumber="+account.getAccountNumber();
+        int x=db.execute(s);
+        if (x==1){
+            System.out.println("Account Deleted Successfully");
+            return true;
+        }
+        return false;
+
+    }
+
 
 
 

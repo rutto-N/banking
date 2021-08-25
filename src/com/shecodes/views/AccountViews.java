@@ -67,4 +67,12 @@ public class AccountViews {
         return amount;
 
     }
+    public static int deleteAccountUI(){
+        Scanner scanner=new Scanner(System.in);
+        System.out.println("Enter Account number of the account to delete");
+        int id= scanner.nextInt();
+        scanner.nextLine();
+        return id;
+
+    }
 }
