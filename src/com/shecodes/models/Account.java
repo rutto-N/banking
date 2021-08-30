@@ -1,33 +1,18 @@
 package com.shecodes.models;
 
-import com.shecodes.enums.TypesOfAccount;
+import com.shecodes.enums.TypeOfAccount;
 
 public class Account {
     Customer customer;
-    int accountNumber;
+    double accountNumber;
     String accountName;
     int id;
-    TypesOfAccount type;
+    TypeOfAccount type;
     int pin;
-    int balance;
+    double balance;
 
     public Account() {
 
-    }
-
-    public Account(Customer customer, int accountNumber, String accountName, TypesOfAccount type, int pin) {
-        this.customer = customer;
-        this.accountNumber = accountNumber;
-        this.accountName = accountName;
-        this.type = type;
-        this.pin = pin;
-    }
-
-    public Account(int accountNumber, String accountName, TypesOfAccount type, int pin) {
-        this.accountNumber = accountNumber;
-        this.accountName = accountName;
-        this.type = type;
-        this.pin = pin;
     }
 
     @Override
@@ -41,11 +26,11 @@ public class Account {
 
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -57,11 +42,11 @@ public class Account {
         this.pin = pin;
     }
 
-    public int getAccountNumber() {
+    public double getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(double accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -81,11 +66,11 @@ public class Account {
         this.id = id;
     }
 
-    public TypesOfAccount getType() {
+    public TypeOfAccount getType() {
         return type;
     }
 
-    public void setType(TypesOfAccount type) {
+    public void setType(TypeOfAccount type) {
         this.type = type;
     }
 

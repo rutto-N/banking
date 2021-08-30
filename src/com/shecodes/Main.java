@@ -9,20 +9,28 @@ import com.shecodes.exceptions.IllegalArgumentsExcept;
 import com.shecodes.exceptions.SQLExcept;
 import com.shecodes.helpers.Util;
 import com.shecodes.models.Account;
-import com.shecodes.models.Customer;
-import com.shecodes.views.AccountViews;
-import com.shecodes.views.CustomerViews;
-import com.shecodes.views.StaffViews;
+import com.shecodes.views.AccountView;
+import com.shecodes.views.CustomerView;
+import com.shecodes.views.StaffView;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     static Database db;
+    static Scanner scanner=new Scanner(System.in);
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, SQLExcept, AccountTypeExcept, IllegalArgumentsExcept {
+    static {
+        try {
+            db = new Database();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-        db=new Database();
+
+    public static void main(String[] args) throws SQLException {
+
         int choice=0;
         do{
             System.out.println("-----------------------------------------");
@@ -49,10 +57,9 @@ public class Main {
 
     }
 
-    private static void customerMenuUI() throws SQLException, IllegalArgumentsExcept, SQLExcept {
+    private static void customerMenuUI() throws SQLException{
         int c;
         do {
-            Scanner scanner=new Scanner(System.in);
             System.out.println("Customer Main Menu:");
             System.out.println("1:Check Balance");
             System.out.println("2:Deposit");
@@ -62,13 +69,13 @@ public class Main {
             scanner.nextLine();
             switch (c){
                 case 1:
-                    AccountViews.authUI();
+                    AccountView.authUI();
                     break;
                 case 2:
-                    AccountViews.authUID();
+                    AccountView.authUID();
                     break;
                 case 3:
-                    AccountViews.authUIW();
+                    AccountView.authUIW();
                     break;
 
             }
@@ -76,10 +83,10 @@ public class Main {
         }while (c!=0);
     }
 
-    private static void staffMenuUI() throws SQLException, ClassNotFoundException, SQLExcept, AccountTypeExcept {
+    private static void staffMenuUI() throws  SQLException {
         int c;
         do {
-            Scanner scanner=new Scanner(System.in);
+
             System.out.println("Staff Main Menu:");
 //            System.out.println("1:New Customer");
             System.out.println("1:Open Account");
@@ -93,30 +100,35 @@ public class Main {
             scanner.nextLine();
             switch (c){
                 case 1:
-                    StaffController.addCustomer(StaffViews.getCustomerDetailsUI());
-                    Account a=CustomerViews.getAccountDetailsUI();
+                    StaffController.addCustomer(StaffView.getCustomerDetailsUI());
+                    Account a= CustomerView.getAccountDetailsUI();
 
                     AccountController.openAccount(a);
                     break;
                 case 2:
-                    StaffController.addStaff(StaffViews.getStaffDetailsUI());
+                    StaffController.addStaff(StaffView.getStaffDetailsUI());
                     break;
                 case 3:
                     Util.loopArray(StaffController.viewCustomers());
                     break;
                 case 4:
-                    CustomerController.deleteCustomer(CustomerViews.deleteCustomerUI());
+                    CustomerController.deleteCustomer(CustomerView.deleteCustomerUI());
                     break;
                 case 5:
-                    StaffController.deleteStaff(StaffViews.deleteStaffUI());
+                    StaffController.deleteStaff(StaffView.deleteStaffUI());
                     break;
                 case 6:
-                    AccountController.deleteAccount(AccountViews.deleteAccountUI());
+                    AccountController.deleteAccount(AccountView.deleteAccountUI());
                     break;
 
             }
 
         }while (c!=0);
 
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        scanner.close();
     }
 }

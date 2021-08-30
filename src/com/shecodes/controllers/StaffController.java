@@ -1,7 +1,6 @@
 package com.shecodes.controllers;
 
 import com.shecodes.dbutil.Database;
-import com.shecodes.exceptions.ClassNotFoundExcept;
 import com.shecodes.exceptions.SQLExcept;
 import com.shecodes.models.Customer;
 import com.shecodes.models.Staff;
@@ -23,17 +22,17 @@ public class StaffController {
     }
 
 
-    public static boolean addCustomer(Customer customer) throws SQLExcept {
+    public static boolean addCustomer(Customer customer)  {
         boolean exist;
         exist = customerExists(customer);
         if (!exist){
             String s="INSERT INTO `customers`(`name`, `emailAddress`, `NationalId`, `residence`) VALUES" +
                     "('"+customer.getName()+"','"+customer.getEmailAddress()+"','"+customer.getNationalId()+"','"+customer.getResidence()+"')";
-            int x;
+            int x=0;
             try {
-                x = db.execute(s);
+                x = db.writeData(s);
             } catch (SQLException e) {
-                throw new SQLExcept(e.getMessage());
+                e.printStackTrace();
 
             }
             if (x==1){
@@ -49,13 +48,13 @@ public class StaffController {
         }
         return false;
     }
-    public static boolean addStaff(Staff staff) throws SQLExcept {
+    public static boolean addStaff(Staff staff)  {
         String s="INSERT INTO `staff`(`name`, `staffId`, `branch`) VALUES('"+staff.getName()+"','"+staff.getId()+"','"+staff.getBranch()+"')";
         int x= 0;
         try {
-            x = db.execute(s);
+            x = db.writeData(s);
         } catch (SQLException e) {
-            throw new SQLExcept(e.getMessage());
+          e.printStackTrace();
         }
         if (x==1){
             System.out.println("Staff account created Successfully");
@@ -65,41 +64,41 @@ public class StaffController {
             return false;
         }
     }
-    public static ArrayList<Customer> viewCustomers() throws SQLExcept {
+    public static ArrayList<Customer> viewCustomers() {
         ArrayList<Customer> customers=new ArrayList<>();
         String s="SELECT * FROM customers";
-        ResultSet rs= null;
+        ResultSet rs;
         try {
-            rs = db.executeSelect(s);
+            rs = db.readData(s);
 
         while (rs.next()){
-            Customer customer= convertStringToCustomer(rs);
+            Customer customer= convertResultSetToCustomer(rs);
             customers.add(customer);
         }
         }catch (SQLException e){
-            throw new SQLExcept(e.getMessage());
+           e.printStackTrace();
 
         }
         return customers;
     }
-    public static boolean customerExists(Customer customer) throws SQLExcept {
+    public static boolean customerExists(Customer customer) {
         String s="SELECT * FROM customers WHERE nationalId="+customer.getNationalId();
         try {
-            ResultSet rs=db.executeSelect(s);
+            ResultSet rs=db.readData(s);
             if (rs.next()){
                 System.out.println("Customer already has another Account");
                 return true;
             }
 
         }catch (SQLException e){
-            throw new SQLExcept(e.getMessage());
+           e.printStackTrace();
 
         }
 
         return  false;
 
     }
-    public static Customer convertStringToCustomer(ResultSet rs) throws SQLExcept {
+    public static Customer convertResultSetToCustomer(ResultSet rs)  {
         Customer customer=new Customer();
         try {
             customer.setName(rs.getString("name"));
@@ -108,29 +107,29 @@ public class StaffController {
             customer.setResidence(rs.getString("residence"));
 
         }catch (SQLException e){
-            throw new SQLExcept(e.getMessage());
+            e.printStackTrace();
         }
 
         return customer;
     }
-    public static Staff searchStaff(int id) throws ClassNotFoundException, SQLException, SQLExcept {
+    public static Staff searchStaff(int id) throws SQLException {
 
-        Database db=new Database();
+
         Staff staff=new Staff();
         String s="SELECT * FROM staff WHERE staffId="+id;
-        ResultSet rs =db.executeSelect(s);
+        ResultSet rs =db.readData(s);
         while (rs.next()){
-            staff= StaffController.convertStringToStaff(rs);
+            staff= StaffController.convertResultSetToStaff(rs);
 
         }
         return staff;
 
     }
-    public static boolean deleteStaff(int id) throws SQLException, SQLExcept, ClassNotFoundException {
-        Database db=new Database();
+    public static boolean deleteStaff(int id) throws SQLException{
+
         Staff staff=searchStaff(id);
         String s="DELETE FROM staff WHERE staffId="+staff.getId();
-        int x=db.execute(s);
+        int x=db.writeData(s);
         if (x==1){
             System.out.println("Staff Deleted Successfully");
             return true;
@@ -138,7 +137,7 @@ public class StaffController {
         return false;
 
     }
-    public static Staff convertStringToStaff(ResultSet rs) throws SQLExcept {
+    public static Staff convertResultSetToStaff(ResultSet rs) {
         Staff staff=new Staff();
         try {
             staff.setName(rs.getString("name"));
@@ -146,7 +145,7 @@ public class StaffController {
             staff.setBranch(rs.getString("branch"));
 
         }catch (SQLException e){
-            throw new SQLExcept(e.getMessage());
+           e.printStackTrace();
         }
 
         return staff;

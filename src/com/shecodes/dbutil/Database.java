@@ -1,6 +1,7 @@
 package com.shecodes.dbutil;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Database {
 
@@ -25,25 +26,28 @@ public class Database {
 
 
     }
-    public int execute(String q) throws SQLException {
+
+    public int writeData(String q) throws SQLException {
         Connection conn=connection();
         Statement statement=conn.createStatement();
 
         return statement.executeUpdate(q);
 
     }
-    public ResultSet executeSelect(String q) throws SQLException {
+    public ResultSet readData(String q) throws SQLException {
         Connection conn=connection();
         Statement statement=conn.createStatement();
 
         return statement.executeQuery(q);
 
     }
+
     public void closeConnection() throws SQLException {
         connection().close();
     }
 
-
-
-
+    @Override
+    protected void finalize() throws Throwable {
+        closeConnection();
+    }
 }

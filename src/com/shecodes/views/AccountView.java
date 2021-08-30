@@ -1,17 +1,16 @@
 package com.shecodes.views;
 
 import com.shecodes.controllers.AccountController;
-import com.shecodes.exceptions.IllegalArgumentsExcept;
-import com.shecodes.exceptions.SQLExcept;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class AccountViews {
+public class AccountView {
+    static Scanner scanner=new Scanner(System.in);
     public static int authUI() throws SQLException {
-        Scanner scanner=new Scanner(System.in);
+
         System.out.println("Enter Your Account Number");
-        int accNo=scanner.nextInt();
+        double accNo=scanner.nextInt();
         scanner.nextLine();
         System.out.println("Enter pin");
         int pin= scanner.nextInt();
@@ -20,11 +19,11 @@ public class AccountViews {
         return AccountController.checkBalance(accNo,pin);
 
     }
-    public static int authUID() throws IllegalArgumentsExcept, SQLException, SQLExcept {
-        int accNo;
-        int pin;
+    public static double authUID() throws SQLException{
+        int accNo=0;
+        int pin=0;
         try {
-            Scanner scanner=new Scanner(System.in);
+
             System.out.println("Enter Your Account Number");
              accNo=scanner.nextInt();
             scanner.nextLine();
@@ -34,14 +33,14 @@ public class AccountViews {
 
 
         }catch (IllegalArgumentException e){
-            throw new IllegalArgumentsExcept(e.getMessage());
+           e.printStackTrace();
         }
 
         return AccountController.deposit(accNo,pin);
 
     }
-    public static int authUIW() throws SQLException {
-        Scanner scanner=new Scanner(System.in);
+    public static double authUIW() throws SQLException {
+
         System.out.println("Enter Your Account Number");
         int accNo=scanner.nextInt();
         scanner.nextLine();
@@ -53,14 +52,14 @@ public class AccountViews {
 
     }
     public static int withdrawUI(){
-        Scanner scanner=new Scanner(System.in);
+
         System.out.println("How much do you want to withdraw???");
         int amount= scanner.nextInt();
         scanner.nextLine();
         return amount;
     }
     public static int depositUI(){
-        Scanner scanner=new Scanner(System.in);
+
         System.out.println("How much do you want to deposit???");
         int amount= scanner.nextInt();
         scanner.nextLine();
@@ -68,11 +67,15 @@ public class AccountViews {
 
     }
     public static int deleteAccountUI(){
-        Scanner scanner=new Scanner(System.in);
+
         System.out.println("Enter Account number of the account to delete");
         int id= scanner.nextInt();
         scanner.nextLine();
         return id;
 
+    }
+    @Override
+    protected void finalize() throws Throwable {
+        scanner.close();
     }
 }

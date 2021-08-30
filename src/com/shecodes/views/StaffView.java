@@ -5,12 +5,12 @@ import com.shecodes.models.Staff;
 
 import java.util.Scanner;
 
-public class StaffViews {
+public class StaffView {
+    static Scanner scanner=new Scanner(System.in);
 
 
     public static Staff getStaffDetailsUI(){
     Staff staff =new Staff();
-    Scanner scanner=new Scanner(System.in);
     System.out.println("Staff Name");
     staff.setName(scanner.nextLine());
     System.out.println("Staff ID");
@@ -22,7 +22,6 @@ public class StaffViews {
     }
     public static Customer getCustomerDetailsUI(){
         Customer customer=new Customer();
-        Scanner scanner=new Scanner(System.in);
         System.out.println("Customer Name");
         customer.setName(scanner.nextLine());
         System.out.println("Customer ID");
@@ -35,12 +34,15 @@ public class StaffViews {
         return customer;
     }
     public static int deleteStaffUI(){
-        Scanner scanner=new Scanner(System.in);
         System.out.println("Enter staff id of the staff to delete");
         int id= scanner.nextInt();
         scanner.nextLine();
         return id;
 
+    }
+    @Override
+    protected void finalize() throws Throwable {
+        scanner.close();
     }
 
 
